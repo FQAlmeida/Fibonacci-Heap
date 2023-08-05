@@ -1,0 +1,9 @@
+[workspace]
+
+members = [
+    "fibonacci-heap",
+    "fibonacci-heap-benchmark",
+    "fibonacci-heap-runner",
+    "heap-operations",
+    "tree",
+]
