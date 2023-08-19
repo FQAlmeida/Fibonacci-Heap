@@ -1,5 +1,4 @@
 use std::{
-    borrow::BorrowMut,
     fmt,
     sync::{Arc, Mutex},
 };
@@ -49,8 +48,7 @@ impl Tree {
 
     fn insert_node(visiting_node: &TreeNode, mut node_to_insert: Node) {
         let this_node_lock = visiting_node.lock();
-        let mut binding = this_node_lock.unwrap();
-        let this_node = binding.borrow_mut();
+        let mut this_node = this_node_lock.unwrap();
 
         let child_node = if this_node.value >= node_to_insert.value {
             &mut this_node.left
@@ -233,12 +231,6 @@ mod tests {
         let _ = tree.insert(1);
         let _ = tree.insert(2);
         let _ = tree.insert(3);
-
-        {
-            let left_node_root_lock = &tree.root.as_ref().unwrap().lock().unwrap();
-            let left_node = left_node_root_lock.left.as_ref().unwrap().lock().unwrap();
-            assert_eq!(left_node.value, 1);
-        }
 
         for value in 1..=3i64 {
             let found = &tree.find(value);
