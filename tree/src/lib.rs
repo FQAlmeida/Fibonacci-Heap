@@ -95,16 +95,39 @@ impl Tree {
         }
     }
 
+    fn find_sucessor(node: &TreeNode) -> TreeNode {
+        let this_node_lock = node.lock();
+        let this_node = this_node_lock.unwrap();
+
+        match &this_node.left {
+            Some(left_node) => Self::find_sucessor(&left_node),
+            None => node.clone(),
+        }
+    }
+
     fn remove_node(node: &mut TreeNode) -> Option<i64> {
         let this_node_lock = node.lock();
         let this_node = this_node_lock.unwrap();
 
         let value = (&this_node).value;
 
-        // TODO (Bruno): impl remove node
         // Find next sucessor, parent and side
-        let parent = &this_node.parent;
-
+        let parent = this_node.parent.clone();
+        let successor = match &this_node.right {
+            Some(right_node) => Some(Self::find_sucessor(right_node)),
+            None => None,
+        };
+        // if parent is none
+            // node is root
+            // dont update parent
+        // else
+            // 
+        // if sucessor is none
+            // just remove node
+        // else
+            // update current node
+            // delete sucessor
+        
         Some(value)
     }
 }
